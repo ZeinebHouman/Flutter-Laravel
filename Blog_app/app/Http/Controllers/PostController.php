@@ -41,4 +41,72 @@ class PostController extends Controller
         ],200);
 
     }
+
+    //update Post
+    public function update(Request $request, $id)
+    {
+      $post=Post::find($id);
+      if(!$post)
+        return response ([
+        'message' => "Post created",
+        
+        ],403);
+
+        if($post ->user_id != auth()->user()->id)
+        {
+            return response ([
+                'message' => "Permission denied",
+                
+                ],403);
+
+        }
+
+        $attrs=$request->validate([
+            'body' =>'required | string'
+        ]);
+        $post->update([
+            'body' => $attrs('body'),
+        ]);
+
+        return response ([
+            'message' => "Post updated",
+            "post" => $post
+            
+            ],200);
+
+
+    }
+
+    //delete Post
+    public function destroy($id)
+    {
+        $post=Post::find($id);
+        if(!$post)
+          return response ([
+          'message' => "Post created",
+          
+          ],403);
+  
+          if($post ->user_id != auth()->user()->id)
+          {
+              return response ([
+                  'message' => "Permission denied",
+                  
+                  ],403);
+  
+          }
+
+          $post->comments()->delete();
+          $post->likes()->delete();
+          $post->delete();
+
+          return response ([
+            'message' => "Post deleted",
+            
+            ],200);
+
+
+
+    }
+
 }
