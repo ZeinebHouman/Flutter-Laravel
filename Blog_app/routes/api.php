@@ -16,13 +16,13 @@ use App\Http\Controllers\AuthController;
 */
 //Public routes 
 //route sign in
-Route::post('/register',[AuthController::class,'login']);
+Route::post('/login',[AuthController::class,'login']);
 //route sign up
 Route::post('/register',[AuthController::class,'register']);
 
 //Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::post('/user', [AuthController::class, 'user']);
+    Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
 });

@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function register(Request $request){
         $attrs = $request->validate([
             'name' => 'required | string',
-            'email' => 'required | email | unique: users, email',
+            'email' => 'required | email',
             'password' => 'required | min: 6 |confirmed',
         ]);
 
@@ -61,7 +61,7 @@ class AuthController extends Controller
     public function user ()
     {
         return response([
-            'user' => auth()->Auth::user()
+            'user' => Auth::user()
         ],200);
     }
  
